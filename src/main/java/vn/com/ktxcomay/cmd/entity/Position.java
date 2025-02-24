@@ -11,33 +11,27 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "departments")
+@Table(name = "positions")
 @JsonInclude(Include.NON_NULL)
-public class Department extends BaseEntity {
-
-    @Column(nullable = false, unique = true)
-    private String code;
+public class Position extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
 
-    private Long fatherDepartmentId;
-
-    private Long headPosition;
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean isManager;
 
     private String description;
 
-    private Integer level;
-
-    @OneToMany()
-    @JoinColumn(name = "department_id")
-    private List<Position> positions;
-
     @ManyToMany
     @JoinTable(
-            name = "departments_employees",
-            joinColumns = @JoinColumn(name = "department_id", referencedColumnName = "id"),
+            name = "positions_employees",
+            joinColumns = @JoinColumn(name = "position_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id")
     )
     private List<Employee> employees;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
 }
