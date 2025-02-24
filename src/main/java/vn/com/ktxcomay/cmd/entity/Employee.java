@@ -1,9 +1,12 @@
 package vn.com.ktxcomay.cmd.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.*;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -43,5 +46,14 @@ public class Employee extends BaseEntity {
     private boolean enableLogin;
 
     private String resetPasswordToken;
+
+    @ManyToMany
+    @JsonIgnore
+    @JoinTable(
+            name = "departments_employees",
+            joinColumns = @JoinColumn(name = "employee_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "department_id", referencedColumnName = "id")
+    )
+    private List<Department> departments;
 
 }
