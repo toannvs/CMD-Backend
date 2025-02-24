@@ -1,0 +1,4 @@
+api:
+  base-url: /api/v1
+  endpoints:
+    employees: /employees
