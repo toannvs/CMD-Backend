@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  app:
+    build:
+      context: . # Chỉ vào thư mục gốc chứa Dockerfile
+    ports:
+      - "8091:8091" # Map cổng 8091 giữa container và máy host
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/cmd
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root123456
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - db
+    container_name: cmd-backend
+
+  db:
+    image: mysql:8.0
+    container_name: mysql-container
+    ports:
+      - "3307:3307" # Map cổng 3306 của MySQL
+    environment:
+      MYSQL_ROOT_PASSWORD: root123456
+      MYSQL_DATABASE: cmd
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root123456
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
